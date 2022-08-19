@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchIcon from './search.svg';
 // aa38f233
 import './App.css';
@@ -9,26 +9,19 @@ function App() {
     const [searchBar, setSearchBar] = useState('');
     const [movies, setMovies] = useState([]);
 
-    function createCard(movie) {
-        return (
-            <Card
-                Type={movie.Type}
-                Year={movie.Year}
-                Poster={movie.Poster}
-                Title={movie.Title}
-            />
-        );
-    }
-    // const afd = fetch(`${API_URL}&s=${'spiderman'}`);
-    // console.log(afd);
     async function searchMovies(title) {
         const response = await fetch(`${API_URL}&s=${title}`);
         const data = await response.json();
 
         setMovies(data.Search);
+        console.log(movies);
 
-        return movies.map(createCard);
+        // movies.map(createCard);
     }
+
+    useEffect(() => {
+        searchMovies('Batman');
+    }, []);
 
     return (
         <div className="app">
@@ -37,16 +30,28 @@ function App() {
                 <input
                     placeholder="Search for movies"
                     value={searchBar}
+                    // key={searchBar}
                     onChange={(e) => {
                         setSearchBar(e.target.value);
                     }}
                 />
                 <img
-                    onClick={searchMovies({ searchBar })}
+                    onClick={() => searchMovies(searchBar)}
                     src={SearchIcon}
                     alt="search"
                 />
             </div>
+            {movies.length > 0 ? (
+                <div className="container">
+                    {movies.map((movie) => (
+                        <Card movie={movie} />
+                    ))}
+                </div>
+            ) : (
+                <div className="empty">
+                    <h2>No Movies Found</h2>{' '}
+                </div>
+            )}
         </div>
     );
 }
