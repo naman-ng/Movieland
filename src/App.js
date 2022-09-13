@@ -3,7 +3,7 @@ import SearchIcon from './search.svg';
 // aa38f233
 import './App.css';
 import Card from './Card';
-const API_URL = 'http://www.omdbapi.com?apikey=aa38f233';
+const API_URL = 'https://www.omdbapi.com?apikey=aa38f233';
 
 function App() {
     const [searchBar, setSearchBar] = useState('');
